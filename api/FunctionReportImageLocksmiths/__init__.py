@@ -19,8 +19,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
     try:
         response = 'ALGO' # tr.locksmith_image()
-        from . import travel_sheet_report as m
-        response1 = m.summary_locksmiths()
+        from . import locksmiths_travel_report as m
+        response1 = m.locksmith_image()
         message = f"This HTTP triggered function executed successfully.\n\nResponse:\n{response1}"
         return  func.HttpResponse(message)
     except Exception as e:
