@@ -19,9 +19,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
     try:
         response = 'ALGO' # tr.locksmith_image()
-        from .src import db as m
-        query = """SELECT * FROM [dbo].[Lookup_ClaimStatus];"""
-        response1 = m.sql_to_df(query, use_live=True).to_string()
+        from . import travel_sheet_report as m
+        response1 = m.summary_locksmiths()
         message = f"This HTTP triggered function executed successfully.\n\nResponse:\n{response1}"
         return  func.HttpResponse(message)
     except Exception as e:
