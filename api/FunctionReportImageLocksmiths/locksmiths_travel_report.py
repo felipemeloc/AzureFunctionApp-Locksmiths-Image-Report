@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import numpy as np
 import plotly.figure_factory as ff
 from . import travel_sheet_report as ts_r
 from .src import db
@@ -38,12 +39,22 @@ def get_completed_locksmith_report():
     else:
         return pd.DataFrame()
 
-def df_to_image(df):
+def df_to_image(df:pd.DataFrame, money_cols:list=[], max_length:int=14)->None:    
+    for col, col_type in zip(df.dtypes.index, df.dtypes):
+        if col in money_cols:
+            df[col] = df[col].astype(float).apply(lambda x: f'£{x:.01f}' if not np.isnan(x) else x)
+        elif col_type == 'float64':
+            df[col] = df[col].apply(lambda x: f'{x:.02f}' if not np.isnan(x) else x)
+        elif col_type == 'object':
+            df[col] = df[col].fillna('').astype(str).apply(lambda x: x[0:max_length])
+    df.fillna('', inplace=True)
     fig =  ff.create_table(df)
     fig.update_layout(
-        autosize=True
-    )
-    local_path = f'/tmp/{utils.get_uuid()}.png'
+        autosize=False,
+        width=100*df.shape[1],
+        height=20*df.shape[0],
+        )
+    local_path = f'/tmp/tmp_image.png'
     fig.write_image(local_path, scale=2)
     if blob.blob_exists(REPORT_IMAGE):
         blob.delete_blob(REPORT_IMAGE)
@@ -56,7 +67,7 @@ def locksmith_image():
     try:
         report = get_completed_locksmith_report()
         if not report.empty:
-            df_to_image(report)
+            df_to_image(report, money_cols=['Revenue', '£ per mile'])
             logging.info('Image generated')
             return f"The image was generated. Check the {CONTAINER} container"
         else:
