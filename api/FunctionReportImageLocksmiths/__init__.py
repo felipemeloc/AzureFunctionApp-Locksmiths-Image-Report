@@ -1,11 +1,13 @@
+from . import load_env
+
 import os
 import sys
 import logging
 import azure.functions as func
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
 # Load environment variables
-load_dotenv()
+# load_dotenv()
 # Define project main path
 MAIN_FOLDER = os.getenv('MAIN_PATH')
 

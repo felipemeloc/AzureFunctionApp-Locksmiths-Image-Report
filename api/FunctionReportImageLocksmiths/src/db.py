@@ -20,7 +20,7 @@ import warnings
 import sqlalchemy as sa
 from dotenv import load_dotenv
 
-load_dotenv()
+#load_dotenv()
 warnings.filterwarnings("ignore")
 
 def get_conn(use_live=True)->pyodbc.Connection:

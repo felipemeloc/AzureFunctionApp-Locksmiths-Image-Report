@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 import logging
 
 
-load_dotenv()
+#load_dotenv()
 
 USER_API_HASH = api_authentication.authentication()['USER_API_HASH']
 

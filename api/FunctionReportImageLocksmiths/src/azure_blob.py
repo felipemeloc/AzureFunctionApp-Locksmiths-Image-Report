@@ -22,7 +22,7 @@ import os
 from dotenv import load_dotenv
 from azure.storage.blob import BlobServiceClient, _container_client
 
-load_dotenv()
+#load_dotenv()
 
 BLOB_CONN_STR = os.getenv('BLOB_CONN_STR')
 CONTAINER = os.getenv('CONTAINER')
